@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 
 export default function NewTodoForm({ onCreate }) {
@@ -16,6 +17,7 @@ export default function NewTodoForm({ onCreate }) {
     <div>
       <form onSubmit={handleSubmit}>
         <input
+          css={{ width: "100%", fontSize: "1.5rem", border: "1px solid #ccc" }}
           name="newTodo"
           type="text"
           placeholder="What need to be done?"

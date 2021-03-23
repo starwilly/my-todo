@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
-import "./App.css";
+import "modern-css-reset";
 import FilterList from "./components/FilterList";
 import FilterMenu from "./components/FilterMenu";
 import NewTodoForm from "./components/NewTodoForm";
@@ -58,16 +58,23 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div
+      className="App"
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        border: "1px solid #ccc",
+        width: "40rem",
+        margin: "0 auto",
+      }}
+    >
       <NewTodoForm onCreate={addTodo} />
-      <div css={{ display: "flex", flexDirection: "column" }}>
-        <FilterList
-          todos={todos}
-          itemClick={toggleTodo}
-          onRemove={removeTodo}
-          filter={filterFn}
-        />
-      </div>
+      <FilterList
+        todos={todos}
+        itemClick={toggleTodo}
+        onRemove={removeTodo}
+        filter={filterFn}
+      />
       <FilterMenu
         filter={filter}
         onFilterChange={setFilter}

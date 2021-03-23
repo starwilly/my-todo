@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import TodoItem from "./TodoItem";
 
@@ -11,7 +12,14 @@ export default function FilterList({
   onRemove,
 }) {
   return (
-    <div>
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        border: "1px solid #ccc",
+        fontSize: "1.5rem",
+      }}
+    >
       {todos.filter(filter).map((todo) => (
         <TodoItem
           key={todo.id}
