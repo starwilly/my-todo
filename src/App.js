@@ -8,7 +8,7 @@ import {
   Switch,
 } from "react-router-dom";
 import TodoList from "./components/TodoList";
-import FilterMenu from "./components/FilterMenu";
+import Footer from "./components/Footer";
 import NewTodoForm from "./components/NewTodoForm";
 import { Status } from "./constants";
 
@@ -27,7 +27,6 @@ const filterMap = {
 
 function App() {
   const [todos, setTodos] = useState(defaultTodos);
-  const [filter, setFilter] = useState("ACTIVE");
   const activeItemCount = todos.filter(filterMap["ACTIVE"]).length;
   const completeItemCount = todos.filter(filterMap["COMPLETED"]).length;
 
@@ -74,7 +73,7 @@ function App() {
         flexDirection: "column",
         border: "1px solid #ccc",
         width: "40rem",
-        margin: "0 auto",
+        margin: "6em auto",
       }}
     >
       <Router>
@@ -97,9 +96,7 @@ function App() {
           ></Route>
           <Redirect path="*" to="/all"></Redirect>
         </Switch>
-        <FilterMenu
-          filter={filter}
-          onFilterChange={setFilter}
+        <Footer
           activeItemCount={activeItemCount}
           completeItemCount={completeItemCount}
           onClearComplete={onClearComplete}
