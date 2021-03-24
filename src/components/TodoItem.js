@@ -16,6 +16,72 @@ export default function TodoItem({
   const [newContent, setNewContent] = useState(content);
   const newTodoRef = useRef(null);
   const isCompleted = status === Status.COMPLETED;
+
+  const RemoveButton = () => (
+    <button
+      className="remove-btn"
+      css={{
+        width: "2em",
+        height: "2em",
+        background: "none",
+        border: 0,
+        opacity: 0,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        color: "#ff7277",
+      }}
+      onClick={onRemove}
+    >
+      <BsX size={"1.2em"} />
+    </button>
+  );
+
+  const checkBoxColor = "#4c9aff";
+
+  const Todo = () => (
+    <div
+      css={{
+        display: "flex",
+        width: "100%",
+        alignItems: "center",
+        "&:hover .remove-btn": { opacity: 1 },
+      }}
+    >
+      <button
+        css={{
+          width: "1.2em",
+          height: "1.2em",
+          background: "none",
+          border: `1px solid ${checkBoxColor}`,
+          borderRadius: "50%",
+          margin: ".4em",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          color: checkBoxColor,
+          outlineStyle: "none",
+        }}
+        onClick={onClick}
+      >
+        {isCompleted ? <BsCheck size={"1.5em"} /> : null}
+      </button>
+      <div
+        onDoubleClick={onEdit}
+        css={[
+          { padding: ".5em", flexBasis: 1, flexGrow: 1, flexShrink: 1 },
+          isCompleted && {
+            textDecoration: "line-through",
+            color: "#aaa",
+          },
+        ]}
+      >
+        {content}
+      </div>
+      <RemoveButton />
+    </div>
+  );
+
   const dismiss = () => {
     setNewContent(content);
     discardEdit();
@@ -36,60 +102,28 @@ export default function TodoItem({
       discardEdit();
     }
   };
-  return (
-    <div
+  const EditTodo = () => (
+    <input
       css={{
-        display: "flex",
-        "&:hover > button": {
-          opacity: 1,
-        },
+        flexGrow: 1,
+        flexShrink: 1,
+        padding: ".5em",
+        margin: 0,
+        marginLeft: "2em",
+        border: "1px solid #ccc",
+        outlineStyle: "none",
       }}
-    >
-      <div
-        css={{
-          width: "1.5em",
-          height: "1.5em",
-        }}
-      >
-        {isEditing ? null : (
-          <button css={{ width: "100%", height: "100%" }} onClick={onClick}>
-            {isCompleted ? <BsCheck /> : null}
-          </button>
-        )}
-      </div>
-      <div css={{ flexBasis: 1, flexGrow: 1 }} onDoubleClick={() => onEdit()}>
-        {isEditing ? (
-          <input
-            css={{ width: "100%" }}
-            type="text"
-            value={newContent}
-            onChange={(e) => setNewContent(e.target.value)}
-            onBlur={dismiss}
-            onKeyUp={handleKeyUp}
-            ref={newTodoRef}
-          />
-        ) : (
-          <span
-            css={[
-              { padding: "0.5em" },
-              isCompleted && { textDecoration: "line-through", color: "#aaa" },
-            ]}
-          >
-            {content}
-          </span>
-        )}
-      </div>
-      <button
-        css={{
-          width: "2em",
-          background: "none",
-          border: 0,
-          opacity: 0,
-        }}
-        onClick={onRemove}
-      >
-        <BsX />
-      </button>
+      type="text"
+      value={newContent}
+      onChange={(e) => setNewContent(e.target.value)}
+      onBlur={dismiss}
+      onKeyUp={handleKeyUp}
+      ref={newTodoRef}
+    />
+  );
+  return (
+    <div css={{ display: "flex", width: "100%" }}>
+      {isEditing ? <EditTodo /> : <Todo />}
     </div>
   );
 }

@@ -85,7 +85,6 @@ function App() {
             render={({ match }) => {
               const filterKey = match.url.slice(1).toUpperCase();
               const filter = filterMap[filterKey];
-              console.log(`filter`, filter, todos, todos.filter(filter));
               return (
                 <TodoList
                   todos={todos.filter(filter)}
