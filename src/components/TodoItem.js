@@ -17,7 +17,7 @@ export default function TodoItem({
   const newTodoRef = useRef(null);
   const isCompleted = status === Status.COMPLETED;
 
-  const RemoveButton = () => (
+  const RemoveButton = (
     <button
       className="remove-btn"
       css={{
@@ -39,7 +39,7 @@ export default function TodoItem({
 
   const checkBoxColor = "#4c9aff";
 
-  const Todo = () => (
+  const Todo = (
     <div
       css={{
         display: "flex",
@@ -73,12 +73,13 @@ export default function TodoItem({
           isCompleted && {
             textDecoration: "line-through",
             color: "#aaa",
+            wordBreak: "break-all",
           },
         ]}
       >
         {content}
       </div>
-      <RemoveButton />
+      {RemoveButton}
     </div>
   );
 
@@ -102,7 +103,7 @@ export default function TodoItem({
       discardEdit();
     }
   };
-  const EditTodo = () => (
+  const EditTodo = (
     <input
       css={{
         flexGrow: 1,
@@ -115,7 +116,10 @@ export default function TodoItem({
       }}
       type="text"
       value={newContent}
-      onChange={(e) => setNewContent(e.target.value)}
+      onChange={(e) => {
+        console.log(`e`, e);
+        setNewContent(e.target.value);
+      }}
       onBlur={dismiss}
       onKeyUp={handleKeyUp}
       ref={newTodoRef}
@@ -123,7 +127,7 @@ export default function TodoItem({
   );
   return (
     <div css={{ display: "flex", width: "100%" }}>
-      {isEditing ? <EditTodo /> : <Todo />}
+      {isEditing ? EditTodo : Todo}
     </div>
   );
 }
