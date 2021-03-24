@@ -11,6 +11,7 @@ import TodoList from "./components/TodoList";
 import Footer from "./components/Footer";
 import NewTodoForm from "./components/NewTodoForm";
 import { Status } from "./constants";
+import { Store } from "./store";
 
 const defaultTodos = [
   { id: 1, content: "test 1", status: Status.ACTIVE },
@@ -25,8 +26,10 @@ const filterMap = {
   COMPLETED: (todo) => todo.status === Status.COMPLETED,
 };
 
+const storage = new Store("MY_TODO");
+
 function App() {
-  const [todos, setTodos] = useState(defaultTodos);
+  const [todos, setTodos] = useState(() => storage.getItem() ?? defaultTodos);
   const activeItemCount = todos.filter(filterMap["ACTIVE"]).length;
   const completeItemCount = todos.filter(filterMap["COMPLETED"]).length;
 
@@ -46,22 +49,27 @@ function App() {
     const newTodos = todos.slice();
     newTodos.splice(index, 1);
     setTodos(newTodos);
+    storage.setItem(newTodos);
   };
 
   const updateTodo = (todo) => {
     const newTodos = todos.map((t) => (t.id === todo.id ? todo : t));
     setTodos(newTodos);
+    storage.setItem(newTodos);
   };
 
-  const addTodo = (content) =>
-    setTodos([
+  const addTodo = (content) => {
+    const newTodos = [
       ...todos,
       {
         content,
         id: Date(),
         status: Status.ACTIVE,
       },
-    ]);
+    ];
+    setTodos(newTodos);
+    storage.setItem(newTodos);
+  };
 
   const handleChange = (todo, content) => {
     const newTodo = { ...todo, content };
@@ -71,6 +79,7 @@ function App() {
   const onClearComplete = () => {
     const newTodos = todos.filter(filterMap.ACTIVE);
     setTodos(newTodos);
+    storage.setItem(newTodos);
   };
 
   return (

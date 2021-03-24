@@ -54,6 +54,7 @@ export default function Footer({
               background: 0,
               outline: "none",
               padding: "0 .5em",
+              margin: "0",
               "&:hover": {
                 textDecoration: "underline",
               },
