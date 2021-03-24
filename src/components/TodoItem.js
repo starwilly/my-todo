@@ -30,6 +30,7 @@ export default function TodoItem({
         justifyContent: "center",
         alignItems: "center",
         color: "#ff7277",
+        outline: 0,
       }}
       onClick={onRemove}
     >
@@ -64,12 +65,18 @@ export default function TodoItem({
         }}
         onClick={onClick}
       >
-        {isCompleted ? <BsCheck size={"1.5em"} /> : null}
+        {isCompleted ? <BsCheck size="1em" /> : null}
       </button>
       <div
         onDoubleClick={onEdit}
         css={[
-          { padding: ".5em", flexBasis: 1, flexGrow: 1, flexShrink: 1 },
+          {
+            padding: ".5em",
+            flexBasis: 1,
+            flexGrow: 1,
+            flexShrink: 1,
+            borderBottom: "1px solid #eee",
+          },
           isCompleted && {
             textDecoration: "line-through",
             color: "#aaa",
@@ -108,11 +115,14 @@ export default function TodoItem({
       css={{
         flexGrow: 1,
         flexShrink: 1,
-        padding: ".5em",
+        padding: ".5em ",
         margin: 0,
         marginLeft: "2em",
-        border: "1px solid #ccc",
+        marginRight: "2em",
+        border: "0",
+        // backgroundColor: "#f3f3f3",
         outlineStyle: "none",
+        borderBottom: `1px solid ${checkBoxColor}`,
       }}
       type="text"
       value={newContent}
@@ -126,7 +136,7 @@ export default function TodoItem({
     />
   );
   return (
-    <div css={{ display: "flex", width: "100%" }}>
+    <div css={{ display: "flex", width: "100%", padding: "0 1rem" }}>
       {isEditing ? EditTodo : Todo}
     </div>
   );

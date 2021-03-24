@@ -71,11 +71,15 @@ function App() {
       css={{
         display: "flex",
         flexDirection: "column",
-        border: "1px solid #ccc",
         width: "40rem",
         margin: "6em auto",
+        borderRadius: "20px",
+        overflow: "hidden",
+        boxShadow:
+          " rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px",
       }}
     >
+      <h1 css={{ textAlign: "center", padding: ".5em 0" }}>Todo List</h1>
       <Router>
         <NewTodoForm onCreate={addTodo} />
         <Switch>

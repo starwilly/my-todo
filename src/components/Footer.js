@@ -10,19 +10,27 @@ export default function Footer({
 }) {
   const Nav = styled(NavLink)([
     {
-      padding: ".2em .5em ",
-      margin: "0 .2em",
-      color: "green",
+      padding: ".2em .8em ",
+      margin: "0 .1em",
+      textDecoration: "none",
       lineHeight: 1.2,
+      color: "#333",
       "&.active": {
-        color: "red",
-        border: "1px solid #ccc",
         borderRadius: "4px",
+        color: "#333",
+        boxShadow:
+          " rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;",
       },
     },
   ]);
   return (
-    <div css={{ position: "relative", padding: ".2rem 1rem" }}>
+    <div
+      css={{
+        position: "relative",
+        padding: "1.2rem 1.6rem .8rem",
+        color: "#aaa",
+      }}
+    >
       <span css={{ float: "left" }}>
         {activeItemCount} {activeItemCount === 1 ? "item" : "items"} left
       </span>
@@ -45,7 +53,6 @@ export default function Footer({
               border: 0,
               background: 0,
               "&:hover": {
-                color: "red",
                 textDecoration: "underline",
               },
             }}

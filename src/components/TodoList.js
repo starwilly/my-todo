@@ -17,7 +17,7 @@ export default function TodoList({
       css={{
         display: "flex",
         flexDirection: "column",
-        border: "1px solid #ccc",
+        // border: "1px solid #ccc",
         fontSize: "1.5rem",
       }}
     >
