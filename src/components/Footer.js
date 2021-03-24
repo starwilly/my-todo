@@ -52,6 +52,8 @@ export default function Footer({
             css={{
               border: 0,
               background: 0,
+              outline: "none",
+              padding: "0 .5em",
               "&:hover": {
                 textDecoration: "underline",
               },
