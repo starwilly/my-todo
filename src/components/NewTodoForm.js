@@ -3,14 +3,9 @@
 export default function NewTodoForm({ onCreate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newTodo = e.target.elements["newTodo"];
-    const todo = {
-      id: Date.now(),
-      content: newTodo.value,
-      status: "active",
-    };
-    newTodo.value = "";
-    onCreate(todo);
+    const todoElement = e.target.elements["newTodo"];
+    onCreate(todoElement.value.trim());
+    todoElement.value = "";
   };
   return (
     <form css={{ padding: ".5rem 2rem" }} onSubmit={handleSubmit}>

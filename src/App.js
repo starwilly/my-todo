@@ -53,7 +53,15 @@ function App() {
     setTodos(newTodos);
   };
 
-  const addTodo = (todo) => setTodos([...todos, todo]);
+  const addTodo = (content) =>
+    setTodos([
+      ...todos,
+      {
+        content,
+        id: Date(),
+        status: Status.ACTIVE,
+      },
+    ]);
 
   const handleChange = (todo, content) => {
     const newTodo = { ...todo, content };
