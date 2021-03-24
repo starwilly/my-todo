@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
+import { NavLink } from "react-router-dom";
+import styled from "@emotion/styled";
 
 const filters = [
   { key: "ALL", text: "All" },
   { key: "ACTIVE", text: "Active" },
-  { key: "DONE", text: "Complete" },
+  { key: "DONE", text: "Completed" },
 ];
 
 export default function FilterMenu({
@@ -14,22 +16,16 @@ export default function FilterMenu({
   completeItemCount,
   onClearComplete,
 }) {
+  const Nav = styled(NavLink)([
+    { padding: "5px", color: "green", "&.active": { color: "red" } },
+  ]);
   return (
     <div>
       {activeItemCount} {activeItemCount === 1 ? "item" : "items"} left,
       {filters.map((f) => (
-        <a
-          css={[
-            { padding: "5px", color: "green" },
-            f.key === filter && {
-              color: "red",
-            },
-          ]}
-          key={f.key}
-          onClick={() => onFilterChange(f.key)}
-        >
+        <Nav key={f.key} to={f.text.toLowerCase()}>
           {f.text}
-        </a>
+        </Nav>
       ))}
       {completeItemCount > 0 ? (
         <button onClick={onClearComplete}>Clear Complete</button>

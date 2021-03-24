@@ -1,7 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
 import "modern-css-reset";
-import FilterList from "./components/FilterList";
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Route,
+  Switch,
+} from "react-router-dom";
+import TodoList from "./components/TodoList";
 import FilterMenu from "./components/FilterMenu";
 import NewTodoForm from "./components/NewTodoForm";
 
@@ -15,15 +21,14 @@ const defaultTodos = [
 const filterMap = {
   ALL: (todo) => todo,
   ACTIVE: (todo) => todo.status === "active",
-  DONE: (todo) => todo.status === "done",
+  COMPLETED: (todo) => todo.status === "done",
 };
 
 function App() {
   const [todos, setTodos] = useState(defaultTodos);
   const [filter, setFilter] = useState("ACTIVE");
-  const filterFn = filterMap[filter];
   const activeItemCount = todos.filter(filterMap["ACTIVE"]).length;
-  const completeItemCount = todos.filter(filterMap["DONE"]).length;
+  const completeItemCount = todos.filter(filterMap["COMPLETED"]).length;
 
   const toggleTodo = (todo) => {
     const newTodo = {
@@ -72,21 +77,34 @@ function App() {
         margin: "0 auto",
       }}
     >
-      <NewTodoForm onCreate={addTodo} />
-      <FilterList
-        todos={todos}
-        itemClick={toggleTodo}
-        onRemove={removeTodo}
-        onChange={handleChange}
-        filter={filterFn}
-      />
-      <FilterMenu
-        filter={filter}
-        onFilterChange={setFilter}
-        activeItemCount={activeItemCount}
-        completeItemCount={completeItemCount}
-        onClearComplete={onClearComplete}
-      />
+      <Router>
+        <NewTodoForm onCreate={addTodo} />
+        <Switch>
+          <Route
+            path={["/all", "/active", "/completed"]}
+            render={({ match }) => {
+              const filterKey = match.url.slice(1).toUpperCase();
+              const filter = filterMap[filterKey];
+              return (
+                <TodoList
+                  todos={todos.filter(filter)}
+                  itemClick={toggleTodo}
+                  onRemove={removeTodo}
+                  onChange={handleChange}
+                />
+              );
+            }}
+          ></Route>
+          <Redirect path="*" to="/all"></Redirect>
+        </Switch>
+        <FilterMenu
+          filter={filter}
+          onFilterChange={setFilter}
+          activeItemCount={activeItemCount}
+          completeItemCount={completeItemCount}
+          onClearComplete={onClearComplete}
+        />
+      </Router>
     </div>
   );
 }

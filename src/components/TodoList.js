@@ -3,12 +3,10 @@ import React from "react";
 import TodoItem from "./TodoItem";
 import { useState } from "react";
 
-const emptyFilter = (item) => true;
 const noop = () => {};
 
-export default function FilterList({
+export default function TodoList({
   todos,
-  filter = emptyFilter,
   itemClick = noop,
   onRemove,
   onChange,
@@ -23,7 +21,7 @@ export default function FilterList({
         fontSize: "1.5rem",
       }}
     >
-      {todos.filter(filter).map((todo) => (
+      {todos.map((todo) => (
         <TodoItem
           key={todo.id}
           content={todo.content}
