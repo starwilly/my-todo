@@ -10,18 +10,19 @@ import {
 import TodoList from "./components/TodoList";
 import FilterMenu from "./components/FilterMenu";
 import NewTodoForm from "./components/NewTodoForm";
+import { Status } from "./constants";
 
 const defaultTodos = [
-  { id: 1, content: "test 1", status: "active" },
-  { id: 2, content: "test 2", status: "active" },
-  { id: 3, content: "test 3", status: "active" },
-  { id: 4, content: "test 4", status: "active" },
+  { id: 1, content: "test 1", status: Status.ACTIVE },
+  { id: 2, content: "test 2", status: Status.ACTIVE },
+  { id: 3, content: "test 3", status: Status.ACTIVE },
+  { id: 4, content: "test 4", status: Status.ACTIVE },
 ];
 
 const filterMap = {
   ALL: (todo) => todo,
-  ACTIVE: (todo) => todo.status === "active",
-  COMPLETED: (todo) => todo.status === "done",
+  ACTIVE: (todo) => todo.status === Status.ACTIVE,
+  COMPLETED: (todo) => todo.status === Status.COMPLETED,
 };
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
   const toggleTodo = (todo) => {
     const newTodo = {
       ...todo,
-      status: todo.status === "active" ? "done" : "active",
+      status: todo.status === Status.ACTIVE ? Status.COMPLETED : Status.ACTIVE,
     };
     updateTodo(newTodo);
   };
@@ -57,12 +58,11 @@ function App() {
 
   const handleChange = (todo, content) => {
     const newTodo = { ...todo, content };
-    console.log(todo, newTodo);
     updateTodo(newTodo);
   };
 
   const onClearComplete = () => {
-    const newTodos = todos.filter((todo) => todo.status !== "done");
+    const newTodos = todos.filter(filterMap.ACTIVE);
     setTodos(newTodos);
   };
 
@@ -85,6 +85,7 @@ function App() {
             render={({ match }) => {
               const filterKey = match.url.slice(1).toUpperCase();
               const filter = filterMap[filterKey];
+              console.log(`filter`, filter, todos, todos.filter(filter));
               return (
                 <TodoList
                   todos={todos.filter(filter)}

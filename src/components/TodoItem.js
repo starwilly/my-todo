@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useState, useRef, useEffect } from "react";
 import { BsCheck, BsX } from "react-icons/bs";
+import { Status } from "../constants";
 
 export default function TodoItem({
   content,
@@ -14,7 +15,7 @@ export default function TodoItem({
 }) {
   const [newContent, setNewContent] = useState(content);
   const newTodoRef = useRef(null);
-  const isComplete = status === "done";
+  const isCompleted = status === Status.COMPLETED;
   const dismiss = () => {
     setNewContent(content);
     discardEdit();
@@ -52,7 +53,7 @@ export default function TodoItem({
       >
         {isEditing ? null : (
           <button css={{ width: "100%", height: "100%" }} onClick={onClick}>
-            {status === "done" ? <BsCheck /> : null}
+            {isCompleted ? <BsCheck /> : null}
           </button>
         )}
       </div>
@@ -71,10 +72,9 @@ export default function TodoItem({
           <span
             css={[
               { padding: "0.5em" },
-              isComplete && { textDecoration: "line-through", color: "#aaa" },
+              isCompleted && { textDecoration: "line-through", color: "#aaa" },
             ]}
           >
-            {isComplete}
             {content}
           </span>
         )}
