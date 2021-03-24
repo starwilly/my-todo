@@ -105,7 +105,12 @@ export default function TodoItem({
 
   const handleKeyUp = (e) => {
     if (e.code === "Enter") {
-      onChange(newContent);
+      const content = newContent.trim();
+      if (content === "") {
+        onRemove();
+      } else {
+        onChange(content);
+      }
     } else if (e.code === "Escape") {
       discardEdit();
     }
