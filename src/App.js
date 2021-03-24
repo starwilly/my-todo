@@ -44,13 +44,17 @@ function App() {
   };
 
   const updateTodo = (todo) => {
-    const index = todos.findIndex((t) => t.id === todo.id);
-    const newTodos = todos.slice();
-    newTodos[index] = todo;
+    const newTodos = todos.map((t) => (t.id === todo.id ? todo : t));
     setTodos(newTodos);
   };
 
   const addTodo = (todo) => setTodos([...todos, todo]);
+
+  const handleChange = (todo, content) => {
+    const newTodo = { ...todo, content };
+    console.log(todo, newTodo);
+    updateTodo(newTodo);
+  };
 
   const onClearComplete = () => {
     const newTodos = todos.filter((todo) => todo.status !== "done");
@@ -73,6 +77,7 @@ function App() {
         todos={todos}
         itemClick={toggleTodo}
         onRemove={removeTodo}
+        onChange={handleChange}
         filter={filterFn}
       />
       <FilterMenu

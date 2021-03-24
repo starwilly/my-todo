@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
 
 export default function NewTodoForm({ onCreate }) {
   const handleSubmit = (e) => {
@@ -21,7 +20,7 @@ export default function NewTodoForm({ onCreate }) {
           name="newTodo"
           type="text"
           placeholder="What need to be done?"
-          autocomplete="off"
+          autoComplete="off"
         />
       </form>
     </div>

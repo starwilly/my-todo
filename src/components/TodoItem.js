@@ -1,44 +1,84 @@
 /** @jsxImportSource @emotion/react */
+import { useState, useRef, useEffect } from "react";
 import { BsCheck, BsX } from "react-icons/bs";
 
-export default function TodoItem({ content, status, onClick, onRemove }) {
+export default function TodoItem({
+  content,
+  status,
+  isEditing,
+  onClick,
+  onRemove,
+  onChange,
+  onEdit,
+  discardEdit,
+}) {
+  const [newContent, setNewContent] = useState(content);
+  const newTodoRef = useRef(null);
+  const isComplete = status === "done";
+  const dismiss = () => {
+    setNewContent(content);
+    discardEdit();
+  };
+
+  useEffect(() => {
+    if (isEditing) {
+      const size = newTodoRef.current.value.length;
+      newTodoRef.current.focus();
+      newTodoRef.current.setSelectionRange(size, size);
+    }
+  }, [isEditing]);
+
+  const handleKeyUp = (e) => {
+    if (e.code === "Enter") {
+      onChange(newContent);
+    } else if (e.code === "Escape") {
+      discardEdit();
+    }
+  };
   return (
     <div
       css={{
-        borderBottom: "1px solid #ccc",
         display: "flex",
         "&:hover > button": {
           opacity: 1,
         },
       }}
     >
-      <label
+      <div
         css={{
-          display: "flex",
-          flexBasis: 1,
-          flexGrow: 1,
-          alignItems: "center",
+          width: "1.5em",
+          height: "1.5em",
         }}
       >
-        <input
-          css={{ display: "none" }}
-          type="checkbox"
-          checked={status !== "active"}
-          onChange={onClick}
-        />
-        <div
-          css={{
-            border: "1px solid #ccc",
-            width: "1.5em",
-            height: "1.5em",
-            borderRadius: "5px",
-            textAlign: "center",
-          }}
-        >
-          {status === "done" ? <BsCheck /> : null}
-        </div>
-        <span css={{ padding: "0.5em" }}>{content}</span>
-      </label>
+        {isEditing ? null : (
+          <button css={{ width: "100%", height: "100%" }} onClick={onClick}>
+            {status === "done" ? <BsCheck /> : null}
+          </button>
+        )}
+      </div>
+      <div css={{ flexBasis: 1, flexGrow: 1 }} onDoubleClick={() => onEdit()}>
+        {isEditing ? (
+          <input
+            css={{ width: "100%" }}
+            type="text"
+            value={newContent}
+            onChange={(e) => setNewContent(e.target.value)}
+            onBlur={dismiss}
+            onKeyUp={handleKeyUp}
+            ref={newTodoRef}
+          />
+        ) : (
+          <span
+            css={[
+              { padding: "0.5em" },
+              isComplete && { textDecoration: "line-through", color: "#aaa" },
+            ]}
+          >
+            {isComplete}
+            {content}
+          </span>
+        )}
+      </div>
       <button
         css={{
           width: "2em",
